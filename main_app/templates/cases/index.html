@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Case Lists</h1>
+    <hr>
+    {% for case in cases%}
+    <a href="{% url 'case_detail' case.id %}">
+        <div class="card case-card">
+            <span class="card-title">A <span style="color:{{ case.color }}">{{ case.color }}</span> {{ case.name }}</span>
+            <br>
+        </div>
+    </a>
+    {% endfor %}
+{% endblock %}

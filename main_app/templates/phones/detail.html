@@ -7,10 +7,16 @@
 
 
     <div class="card">
-        <span class="card-title">{{ phone.name }}</span>
-        <p>Manufacturer: {{ phone.manufacturer }}</p>
-        <p>Carrier: {{ phone.carrier }}</p>
-        <p>Review: {{ phone.review }}</p>
+        <div class="card-content">
+            <span class="card-title">{{ phone.name }}</span>
+            <p>Manufacturer: {{ phone.manufacturer }}</p>
+            <p>Carrier: {{ phone.carrier }}</p>
+            <p>Review: {{ phone.review }}</p>
+        </div>
+        <div class="card-action">
+            <a href="{% url 'phones_update' cat.id %}">Edit</a>
+            <a href="{% url 'phones_delete' cat.id %}">Delete</a>
+        </div>
     </div>
 
 

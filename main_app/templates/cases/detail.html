@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Case</h1>
+    <hr>
+    <div class="card">
+        <div class="card-content">
+            <span class="card-title">{{ case.name }}</span>
+            <p>Color: {{ case.color }}</p>
+        </div>
+        <div class="card-action">
+            <a href="{% url 'cases_update' case.id %}">Edit</a>
+            <a href="{% url 'cases_delete' case.id %}">Delete</a>
+        </div>
+    </div>
+{% endblock %}

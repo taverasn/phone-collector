@@ -2,19 +2,18 @@
 
 {% block content %}
 
-<h1>Phone Lists</h1>
-<hr>
+    <h1>Phone Lists</h1>
+    <hr>
+    {% for phone in phones%}
+    <a href="{% url 'phone_detail' phone.id %}">
+        <div class="card">
+            <span class="card-title">{{ phone.name }}</span>
+            <p>Manufacturer: {{ phone.manufacturer }}</p>
+            <p>Carrier: {{ phone.carrier }}</p>
+            <p>Review: {{ phone.review }}</p>
+        </div>
+    </a>
 
-{% for phone in phones%}
-<a href="{% url 'phone_detail' phone.id %}">
-    <div class="card">
-        <span class="card-title">{{ phone.name }}</span>
-        <p>Manufacturer: {{ phone.manufacturer }}</p>
-        <p>Carrier: {{ phone.carrier }}</p>
-        <p>Review: {{ phone.review }}</p>
-    </div>
-</a>
-
-{% endfor %}
+    {% endfor %}
 
 {% endblock %}
