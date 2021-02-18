@@ -1,6 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView
 from .models import Phone, Case
+from .forms import UsageForm
 
 
 def home(request):
@@ -15,7 +17,18 @@ def phones_index(request):
 
 def phone_detail(request, phone_id):
     phone = Phone.objects.get(id=phone_id)
-    return render(request, 'phones/detail.html', {'phone': phone})
+    usage_form = UsageForm()
+    return render(request, 'phones/detail.html', {
+        'phone': phone, 'usage_form': usage_form
+        })
+
+def add_usage(request, phone_id):
+    form = UsageForm(request.POST)
+    if form.is_valid():
+        new_usage = form.save(commit=False)
+        new_usage.phone_id = phone_id
+        new_usage.save()
+    return redirect('phone_detail', phone_id=phone_id)
 
 class PhoneCreate(CreateView):
     model = Phone
@@ -30,13 +43,12 @@ class PhoneDelete(DeleteView):
     success_url = '/phones/'
 
 # Case Views
-def cases_index(request):
-    cases = Case.objects.all()
-    return render(request, 'cases/index.html', {'cases': cases})
+class CaseList(ListView):
+    model = Case
 
-def case_detail(request, case_id):
-    case = Case.objects.get(id=case_id)
-    return render(request, 'cases/detail.html', {'case': case})
+class CaseDetail(DetailView):
+    model = Case
+    fields = '__all__'
 
 class CaseCreate(CreateView):
     model = Case

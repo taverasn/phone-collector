@@ -1,5 +1,12 @@
 from django.db import models
 from django.urls import reverse
+from datetime import date
+
+USAGES = (
+    ('M', 'Morning'),
+    ('A', 'Afternoon'),
+    ('N', 'Night')
+)
 
 class Phone(models.Model):
     name = models.CharField(max_length=250)
@@ -22,4 +29,21 @@ class Case(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('case_detail', kwargs={'case_id': self.id})
+        return reverse('case_detail', kwargs={'pk': self.id})
+    
+class Usage(models.Model):
+    date = models.DateField('usage date')
+    usage = models.CharField(
+        max_length=1,
+        choices=USAGES,
+        default=USAGES[0][0],
+    )
+    time = models.CharField(max_length=1)
+
+    phone = models.ForeignKey(Phone, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.get_usage_display()} at {self.date} for {self.time} hours"
+    
+    class Meta:
+        ordering = ['-date']
